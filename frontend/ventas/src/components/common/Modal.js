@@ -1,13 +1,13 @@
 import React, { useContext} from 'react';
-import { ModalContext } from '../../context/modal/modalContext';
+import { ModalContext } from '../../context/modalContext';
 
-export const Modal = (props) => {
+export const Modal = ( props ) => {
 
     const {showModal ,modaltTitle , setShowModal, setModalTitle } = useContext(ModalContext);
 
    
   return(
-    <div className={ `modal ${showModal ?'is-active' : ''} `}>
+    <div className={ `modal ${ showModal ? 'is-active' : '' } `}>
         <div className='modal-background'></div>
             <div className='modal-card'>
                 <header className='modal-card-head'>
@@ -22,7 +22,7 @@ export const Modal = (props) => {
                     ></button>
                 </header>
                 <section className='modal-card-body'>
-                    Contenido
+                    {props.children}
                 </section>
             </div>
     </div>

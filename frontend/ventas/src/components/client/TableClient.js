@@ -1,27 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import { ClienteContext } from '../../context/clienteContext';
 import { RowCliente } from './RowCliente';
 
 export const TableClient = () => {
 
-    const [clientesList, setClientesList] = useState([
-        {
-            "idCliente":1,
-            "nombres": "Juan",
-            "apellidos":"Perez",
-            "direccion": "calle12",
-            "telefono": "123123",
-            "email": "juan@gmail.com"
-        },
-        {
-            "idCliente":2,
-            "nombres": "PEPE",
-            "apellidos":"Perez",
-            "direccion": "calle1222",
-            "telefono": "123123",
-            "email": "pepe@gmail.com"
-        }
-    ]);
-
+    const { clienteList } = useContext(ClienteContext);
+   
+    
+    if(clienteList.length === 0) return <center><p>No existen clientes.</p></center>
 
   return(
     <div className='table-container'>
@@ -38,7 +24,7 @@ export const TableClient = () => {
         </thead>
         <tbody>
             {
-                clientesList.map(cliente => (
+                clienteList.map(cliente => (
                     <RowCliente cliente={ cliente } key={cliente.idCliente} />
                 ))
             }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MondalContextProvider } from '../../context/modal/modalContext';
+import { MondalContextProvider } from '../../context/modalContext';
 import { Header } from './Header';
 import { Menu } from './Menu';
 
