@@ -1,11 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ClienteContext } from '../../context/clienteContext';
 import { RowCliente } from './RowCliente';
 
 export const TableClient = () => {
 
-    const { clienteList } = useContext(ClienteContext);
-   
+    const { clienteList, obtenerClientes } = useContext(ClienteContext);
+
+    useEffect(()=>{
+        obtenerClientes();
+        //eslint-disable-next-line
+    }, []);
     
     if(clienteList.length === 0) return <center><p>No existen clientes.</p></center>
 
@@ -23,6 +27,7 @@ export const TableClient = () => {
             </tr>
         </thead>
         <tbody>
+            {/* Row cliente dibuja cada una de las filas de la tabla de cliente */}
             {
                 clienteList.map(cliente => (
                     <RowCliente cliente={ cliente } key={cliente.idCliente} />

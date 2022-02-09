@@ -1,9 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { ClienteContext } from '../../context/clienteContext';
 import { ModalContext } from '../../context/modalContext';
 
 export const FormCliente = () => {
 
     const { setShowModal } = useContext(ModalContext);
+
+    const { registrarClientes, actualizarCliente, clienteActual, obtenerCliente } = useContext(ClienteContext);
 
     const clienteDefault={
         nombres: '',
@@ -15,6 +18,23 @@ export const FormCliente = () => {
 
     const [cliente, setCliente] = useState(clienteDefault); //permite armar el obj cliente para enviar al backend
     const [mensaje, setMensaje] = useState(null);
+
+
+    //cambia el cliente actual
+    useEffect(()=>{
+
+      if(clienteActual !== null){
+        setCliente({
+          ...clienteActual,
+          direccion : clienteActual.direccion? clienteActual.direccion : '',
+          telefono : clienteActual.telefono? clienteActual.telefono : '',
+        })
+      }else{
+        setCliente(clienteDefault);
+      }
+
+      //eslint-disable-next-line
+    },[clienteActual])
 
 
     const {nombres, apellidos, direccion, telefono, email} = cliente;
@@ -34,14 +54,21 @@ export const FormCliente = () => {
             setMensaje('Los nombres, apellidos y email son obligatorios');
             return;
         }
-        console.log(obtenerClienteAEnviar())
+        //obtener objeto a enviar
+        if(clienteActual !== null){
+          actualizarCliente(obtenerClienteAEnviar())
+        }else{
+          registrarClientes(obtenerClienteAEnviar())
+        }
         
+        //cerrar y limpiar el modal
         cerrarModal();
     }
 
     const cerrarModal=()=>{
         limpiarForm();
         setShowModal(false);
+        obtenerCliente(null);
     }
 
     const limpiarForm=()=>{
@@ -51,8 +78,8 @@ export const FormCliente = () => {
 
     const obtenerClienteAEnviar=()=>{
         let clienteTemp = {...cliente};
-        if(clienteTemp. direccion === '') delete clienteTemp.direccion;
-        if(clienteTemp. telefono === '') delete clienteTemp.telefono;
+        if(clienteTemp.direccion === '') delete clienteTemp.direccion;
+        if(clienteTemp.telefono === '') delete clienteTemp.telefono;
         return clienteTemp;
     }
 
